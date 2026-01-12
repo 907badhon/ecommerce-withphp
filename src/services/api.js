@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost/ecommerce-backend/api";
+// Use environment variable instead of hardcoded localhost
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -18,21 +19,22 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
+// Auth endpoints
 export const authAPI = {
   register: (data) => api.post("/auth/register.php", data),
   login: (data) => api.post("/auth/login.php", data),
 };
 
+// Products endpoints
 export const productsAPI = {
   getAll: (params) => api.get("/products/list.php", { params }),
   getById: (id) => api.get(`/products/details.php?id=${id}`),
 };
 
+// Orders endpoints
 export const ordersAPI = {
   create: (data) => api.post("/orders/create.php", data),
   getAll: () => api.get("/orders/list.php"),
