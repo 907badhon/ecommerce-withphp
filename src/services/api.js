@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost/ecommerce-backend/api";
+const API_BASE_URL = "https://e-shopbd.lovestoblog.com/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
