@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = process.env.REACT_APP_API_URL?.replace(/\/$/, "");
+const API_BASE_URL = "http://localhost/ecommerce-backend/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -9,14 +9,18 @@ const api = axios.create({
   },
 });
 
-// Add token
+// Add token to requests
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
-    if (token) config.headers.Authorization = `Bearer ${token}`;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 
 export const authAPI = {
@@ -26,7 +30,7 @@ export const authAPI = {
 
 export const productsAPI = {
   getAll: (params) => api.get("/products/list.php", { params }),
-  getById: (id) => api.get("/products/details.php", { params: { id } }),
+  getById: (id) => api.get(`/products/details.php?id=${id}`),
 };
 
 export const ordersAPI = {
