@@ -1,11 +1,14 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://e-shopbd.lovestoblog.com/api";
+const API_BASE_URL =
+  "https://nondespotically-hasteless-annetta.ngrok-free.dev/ecommerce-backend/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
+    "ngrok-skip-browser-warning": "true",
+    Accept: "*",
   },
 });
 
@@ -15,6 +18,7 @@ api.interceptors.request.use(
     const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+      config.headers["X-Auth-Token"] = token;
     }
     return config;
   },
